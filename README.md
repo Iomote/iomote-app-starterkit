@@ -12,6 +12,8 @@ The starter kit comes with the X400 kit bundle, and contains the following hardw
 This app is intendend for evaulating the starter kit hardware and basic communication with MyMote Cloud.
 
 ### Required libraries
+>If you did not installed the Iomote X400 packets for Arduino IDE, we suggest you to follow the [Getting Started](https://github.com/Iomote/iomote-app-gettingstarted) example README to get the Arduino environment up-and-running for Iomote X400 development.
+
 The app requires the following libraries:
 
 * SmartEverything HTS221 by Seve (tested Version: 1.1.2) 
