@@ -23,6 +23,7 @@ You can install the libraries directly from the Arduino IDE (sketch->Include lib
 * Copy the .ino file inside your project
 * Verify/Compile
 * Upload the file to the board
+
 To get debug informations, open the serial monitor of the IDE.
 
 ### How it works
