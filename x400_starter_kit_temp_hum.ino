@@ -18,13 +18,12 @@
 char buff[MAX_MSG_LEN];
 
 time_t now = 0;
-int16_t left = 0, old_left = 0;
 int16_t pend = 0, old_pend = 0;
 int adcValue = 0;
 double humData, tempData;
 void printAdcOnDisplay(int adcVal);
 void printTempHumOnDisplay(float t, float h);
-void printLeftPendOnDisplay(int16_t left, int16_t pend);
+void printPendOnDisplay(int16_t pend);
 LiquidCrystal_I2C lcd(0x3F,20,4);  // set the LCD address to 0x3F for a 20 chars and 4 line display
 
 void setup() 
@@ -63,12 +62,10 @@ void setup()
 //lcd.print("                    "); // 20 blank chars
   lcd.print("Sensors to Azure App");
 
-  Iomote.messagesLeft(&left);
-  old_left = left;
   Iomote.messagesPending(&pend);
   old_pend = pend;
 
-  printLeftPendOnDisplay(left, pend);
+  printPendOnDisplay(pend);
 
   // Read sensor data...
   // Humidity:
@@ -89,7 +86,6 @@ void setup()
 void loop()
 {
   
-  Iomote.messagesLeft(&left);
   Iomote.messagesPending(&pend);
   int adcCurrentValue = analogRead(1);
 
@@ -99,19 +95,15 @@ void loop()
     printAdcOnDisplay(adcValue);
   }
 
-  if((old_left != left) || (old_pend != pend))
+  if(old_pend != pend)
   {
-    old_left = left;
-
-    Serial.write("Messages daily left: ");
-    Serial.println(left);
 
     old_pend = pend;
 
     Serial.write("Messages on sending queue: ");
     Serial.println(pend);
 
-    printLeftPendOnDisplay(left, pend);
+    printPendOnDisplay(pend);
   }
 
   if(Iomote.rtc.getEpoch() != now)
@@ -189,15 +181,13 @@ void printTempHumOnDisplay(float t, float h)
   lcd.print("%");
 }
 
-void printLeftPendOnDisplay(int16_t left, int16_t pend)
+void printPendOnDisplay(int16_t pend)
 {
 
     lcd.setCursor(0,3); // third row
     // clear row
     lcd.print("                    "); // 20 blank chars
     lcd.setCursor(0,3);
-    lcd.print("Msg left today:"); 
-    lcd.print(left);
-    // lcd.print(",pend:"); 
-    // lcd.print(pend);
+    lcd.print("Pending msgs:"); 
+    lcd.print(pend);
 }
